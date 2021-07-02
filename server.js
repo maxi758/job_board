@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const insertarUnProducto = require("./db/users/mdb-insertone");
+const userRegister = require("./db/users/mdb-insertone");
 const publish = require("./db/publish/mdb-insertone");
 //const estaTomado = require("./client/mdb-findone");
 const selectPublish = require("./db/publish/mdb-find");
@@ -95,24 +95,8 @@ app.post("/login", function (req, res) {
     });
     return;
   }
-  else{
-    for (let i = 0; i < result.length; i++) {
-      console.log(result.length);
-      if (user === result[i].user && pwd === result[i].pwd) {
-        flag = true;
-        res.status(200).send({
-          url: "/home"
-        });
-        return;
-      }    
-    }
-    if(!flag) {
-      res.status(400).send({
-        error: "Usuario y/o contraseña incorrectos"
-      });
-      return;
-    }
-  }
+
+  
 });
 
 
@@ -149,7 +133,7 @@ app.post("/register", function (req, res) {
         return;   
       }
       else {
-        insertarUnProducto(data, verDatos.error, (resultado) => {
+        userRegister(data, verDatos.error, (resultado) => {
           console.log(resultado);
           consultarProductos(verDatos.error, verDatos.listaProductos);
         });
