@@ -1,0 +1,123 @@
+body {
+  font-family: monospace;
+  background-color: rgb(231, 236, 232);
+}
+
+/*h2{
+  color: rgb(212, 190, 60);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+}*/
+p{
+  color: aliceblue;
+}
+  img{
+  width: 70px;
+  height: 70px;
+  box-sizing:border-box;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+ .contenido, aside{
+  display: inline-block;
+}
+aside{
+  width: 15%;
+  border: 1px solid aqua;
+  padding: 4px;
+  margin: 0px 10px;
+}
+#izq, .contenido{
+  float: left;
+}
+#der, .contenido{
+  float: right;
+}
+
+.contenido{
+  margin: 0% 5%;
+  text-align: center;
+  width: 52%;
+  float: initial;
+  background-color: aliceblue;
+}
+nav{
+  vertical-align: middle;
+  text-align: center;
+  width: 90%;
+  list-style-type: none;
+  margin-bottom: 5%;
+}
+nav ul{
+  text-decoration: none;
+  color: aliceblue;
+  font-size: large;
+  list-style: none;
+  display: inline-block;
+}
+nav a:hover{
+  color: goldenrod;
+}
+nav a:focus{
+  color: goldenrod;
+}
+nav ul li{
+  height: 60px;
+  text-decoration: none;
+  list-style: none;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 12px;
+  padding: 4px;
+  margin: 4px;
+  background-color: black;
+}
+nav li:hover{
+  border: 1px solid goldenrod;
+}
+
+body div{
+  display: block;
+}
+.div-style{
+  display: flex;
+  margin-top: 25px;
+  text-align: center;
+  font-size: large;
+}
+.div-style input{
+  position:absolute;
+  margin-left: 200px;
+  width: 100px;
+}
+.btn-submit{
+  background-color: black;
+  color: blanchedalmond;
+  border-radius: 15px;
+  text-align: center;
+  margin-top: 40px;
+  height: 2em;
+  width: 7em;
+  font-size: large;
+}
+.btn-submit:hover{
+  color: goldenrod;
+}
+.btn-submit:focus{
+  color: goldenrod;
+}
+form{
+  background-color:palegreen;
+  padding: 10px;
+  margin: 5px;
+  box-sizing: border-box;
+  width: 450px;
+  height: 250px;
+  text-align: center;
+ 
+}
+#container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,31 @@
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <img src="img/logo_size.jpg" alt="">
+        <ul>
+          
+          <li><input type="text" id="input-nombre" /></li>
+          <li><button id="btn-buscar">Buscar</button></li>
+        </ul>       
+      </nav>
+      
+    </header>
+    <aside id="izq">izq</aside>
+    <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
+    <div class="contenido">
+      {{{body}}}
+    </div>
+    <aside id="der">derecha</aside>
+
+    
+  </body>
+</html>
