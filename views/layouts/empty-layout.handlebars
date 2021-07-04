@@ -1,3 +1,4 @@
+<!-- Este layout es para las vistas en las cuales el usuario aún no esté logueado -->
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -8,24 +9,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
   </head>
   <body>
-    <header>
-      <nav>
-        <img src="img/logo_size.jpg" alt="">
-        <ul>
-          
-          <li><input type="text" id="input-nombre" /></li>
-          <li><button id="btn-buscar">Buscar</button></li>
-        </ul>       
-      </nav>
-      
-    </header>
-    <aside id="izq">izq</aside>
+    
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
     <div class="contenido">
       {{{body}}}
       {{{errors}}}
     </div>
-    <aside id="der">derecha</aside>
 
     
   </body>

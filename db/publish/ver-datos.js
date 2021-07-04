@@ -10,8 +10,7 @@ function verProductos(productos) {
 
   const productos2 = productos.map((item) => {
     return {
-      id: item.user.toString(),
-      nombre: item.contenido,
+      content: item.contenido,
       //precio: "$" + item.precio.toFixed(2),
       //foto: item.foto,
     };

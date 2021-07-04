@@ -1,5 +1,6 @@
 module.exports = {
-  url: "mongodb://localhost:27017",
+  url: "mongodb://localhost:27017/",
   db: "job_board",
-  coleccion: "users"
+  coleccion: "users",
+  useUnifiedTopology: true 
 };

@@ -32,35 +32,63 @@ function searchUser(user, cbError, cbDatos) {
 
 }
 //falta pulir esto, no hace lo que quiero, seguramente por la asincronía
-function isUserTaken(user, cb) {
+function isUserTaken(user) {
+  try{
+    mongodb.MongoClient.connect((dbConfig.url, {useNewUrlParser: true, useUnifiedTopology : true}, function(err, client) {
+      assert.equal(null, err);
+    //Step 1: declare promise
+        
+    var myPromise = () => {
+      return new Promise((resolve, reject) => {
+        const job_board = client.db(dbConfig.db);
+        const colUsers = job_board.collection(dbConfig.coleccion);
 
-  mongodb.MongoClient.connect(dbConfig.url, function(err, client) {
+          colUsers
+          .find({user: user})
+          .limit(1)
+          .toArray(function(err, data) {
+              err 
+                ? reject(err) 
+                : resolve(data[0]);
+            });
+      });
+    };
 
-    if (err) {
-      console.log("Hubo un error conectando con el servidor:", err);
-      return ;
-    }
+    //Step 2: async promise handler
+    var callMyPromise = async () => {
+      
+      var result = await (myPromise());
+      //anything here is executed after result is resolved
+      return result;
+    };
+
+    //Step 3: make the call
+    callMyPromise().then(function(result) {
+      client.close();
+      
+    });
+  //end mongo client
+
+  /*  let client = await mongodb.MongoClient.connect(dbConfig.url);
 
     const job_board = client.db(dbConfig.db);
     const colUsers = job_board.collection(dbConfig.coleccion);
 
-    let users = colUsers.find({ user : `${user}` }, function(err) {
-      
-      client.close();
+    const doc =  colUsers.findOne({ user : user }, function(err) {
+        
+        client.close();
 
-      if (err) {
-        console.log("Hubo un error al consultar:", err);
-        return ;
-      }
-      
+        if (err) {
+          console.log("Hubo un error al consultar:", err);
+          return ;
+        }
+        
     });
-    if (users) {
-        cb(true);
-    } else {
-        cb(false);
-    }
-  });
-  
+    console.log(doc);*/
+  }));
+  } catch (excepcion ) {
+    excepcion.toString();
+}
 }
 
 module.exports ={

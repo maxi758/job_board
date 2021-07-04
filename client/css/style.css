@@ -87,8 +87,10 @@ body div{
 }
 .div-style input{
   position:absolute;
+  border: darkblue 1px solid;
   margin-left: 200px;
-  width: 100px;
+  width: 150px;
+  height: auto;
 }
 .btn-submit{
   background-color: black;
@@ -96,18 +98,19 @@ body div{
   border-radius: 15px;
   text-align: center;
   margin-top: 40px;
-  height: 2em;
+  height: 3em;
   width: 7em;
   font-size: large;
 }
 .btn-submit:hover{
-  color: goldenrod;
+  color: black;
+  border: black 1px solid;
 }
 .btn-submit:focus{
   color: goldenrod;
 }
 form{
-  background-color:palegreen;
+  background-color: rgb(rgb(143, 16, 16), rgb(11, 81, 138), blue) ;
   padding: 10px;
   margin: 5px;
   box-sizing: border-box;
