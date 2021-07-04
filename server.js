@@ -12,7 +12,7 @@ const expHbs = require("express-handlebars");
 const mongodb = require("mongodb");
 const dbConfig = require("./db/users/dbConfig");
 const expSession = require("express-session");
-
+let username;
 /**/ 
 app.use(
   expSession({
@@ -78,6 +78,7 @@ app.get("/home", function (req, res) {
   
         // Renderizo la vista "feed" con esos datos
         res.render("feed", {
+          username,
           publications: allPublictn,
           tituloResultados: result,
           title: mainTitle,
@@ -89,11 +90,12 @@ app.get("/home", function (req, res) {
 //++++++++++++++ PUBLICAR  ++++++++++++++++++++++
 
 app.get("/add", (req, res)=>{
-  if (!req.session.username) {
+  if (!username) {
     res.redirect("/login");
     return;
   }
-  res.render("newPublictn")
+  let title = " crear publicacion";
+  res.render("newPublictn", {username, title} )
 });
 app.post("/newPublictn", (req,res)=>{
   let content = req.body.publication;
@@ -141,6 +143,7 @@ app.post("/loginUsr", async (req, res)=> {
         }
         else {
           req.session.username = user;
+          username = req.session.username;
           res.redirect("/home");
         }
       });
@@ -196,9 +199,7 @@ app.post("/registerUsr", async (req, res)=> {
             console.log(resultado);
           // consultarProductos(verDatos.error, verDatos.listaProductos);
           });
-          res.status(200).send({
-            url: "/home"
-          });
+          res.redirect("/home");
         }
       });
     }

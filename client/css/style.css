@@ -1,8 +1,12 @@
 body {
+  width: 95%;
+  max-width: 1000px;
   font-family: monospace;
   background-color: rgb(231, 236, 232);
 }
-
+header{
+  width: 90%;
+}
 /*h2{
   color: rgb(212, 190, 60);
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -12,8 +16,8 @@ p{
   color: aliceblue;
 }
   img{
-  width: 70px;
-  height: 70px;
+  width: 55px;
+  height: 55px;
   box-sizing:border-box;
   margin-right: 4px;
   vertical-align: middle;
@@ -23,9 +27,10 @@ p{
 }
 aside{
   width: 15%;
-  border: 1px solid aqua;
+  border: 1px solid rgb(17, 72, 156);
   padding: 4px;
   margin: 0px 10px;
+  text-align: center;
 }
 #izq, .contenido{
   float: left;
@@ -33,7 +38,17 @@ aside{
 #der, .contenido{
   float: right;
 }
-
+#der ul{
+  text-decoration: none;
+  list-style: none;
+  text-align: left;
+}
+#der ul li{
+  padding: 1px;
+}
+#der a:hover{
+  text-decoration: underline;
+}
 .contenido{
   margin: 0% 5%;
   text-align: center;
@@ -56,13 +71,13 @@ nav ul{
   display: inline-block;
 }
 nav a:hover{
-  color: goldenrod;
+  color: black;
 }
 nav a:focus{
   color: goldenrod;
 }
 nav ul li{
-  height: 60px;
+  height: 45px;
   text-decoration: none;
   list-style: none;
   display: inline-block;
@@ -73,7 +88,7 @@ nav ul li{
   background-color: black;
 }
 nav li:hover{
-  border: 1px solid goldenrod;
+  border: 1px solid black;
 }
 
 body div{
@@ -94,20 +109,42 @@ body div{
 }
 .btn-submit{
   background-color: black;
-  color: blanchedalmond;
+  color: #fff;
   border-radius: 15px;
   text-align: center;
   margin-top: 40px;
-  height: 3em;
+  height: 45px;
   width: 7em;
   font-size: large;
+}
+#btn-register{
+  width: 10em;
 }
 .btn-submit:hover{
   color: black;
   border: black 1px solid;
 }
 .btn-submit:focus{
-  color: goldenrod;
+  color: black;
+}
+.btn-logout{
+  height: 35px;
+  vertical-align: top;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+}
+
+.btn-logout:hover{
+  color: black;
+  border: black 1px solid;
+  background-color: #fff;
+}
+.btn-logout:focus{
+  color: black;
 }
 form{
   background-color: rgb(rgb(143, 16, 16), rgb(11, 81, 138), blue) ;
@@ -115,12 +152,17 @@ form{
   margin: 5px;
   box-sizing: border-box;
   width: 450px;
-  height: 250px;
+  height: 300px;
   text-align: center;
  
 }
-#container{
+.container{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#publication{
+  box-sizing:border-box;
+
 }

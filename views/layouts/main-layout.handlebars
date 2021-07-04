@@ -15,18 +15,24 @@
           
           <li><input type="text" id="input-nombre" /></li>
           <li><button id="btn-buscar">Buscar</button></li>
-          <li><a href="/logout">Cerrar Sesion</a></li>
+          <li class="btn-logout"><a href="/logout" >Cerrar Sesion</a></li>
         </ul>       
       </nav>
       
     </header>
-    <aside id="izq">izq</aside>
+    <aside id="izq"><span>{{username}}</span></aside>
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
     <div class="contenido">
       {{{body}}}
       {{{errors}}}
     </div>
-    <aside id="der">derecha</aside>
+    <aside id="der">
+      <ul>
+        <li><a href="">Acerca de</a></li>
+        <li><a href="">Politicas y privacidad</a></li>
+        <li><a href="">Publicita aquí</a></li>
+      </ul>
+    </aside>
 
     
   </body>
