@@ -90,7 +90,7 @@ app.get("/home", function (req, res) {
 
 app.get("/add", (req, res)=>{
   if (!req.session.username) {
-    res.redirect("/loginUsr");
+    res.redirect("/login");
     return;
   }
   res.render("newPublictn")
@@ -148,7 +148,11 @@ app.post("/loginUsr", async (req, res)=> {
 
   
 });
-
+//+++++++++++++ Me gustaria que confirme si realmente quiere salir, queda pendiente ++++++++++++++++
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
+});
 //++++++++++++++ REGISTER ++++++++++++++++++++++++++++
 app.post("/registerUsr", async (req, res)=> {
   let errors = [];
