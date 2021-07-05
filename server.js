@@ -6,7 +6,7 @@ const userRegister = require("./db/users/mdb-insertone");
 const publish = require("./db/publish/mdb-insertone");
 const showPublictn = require("./db/publish/ver-datos");
 const isTaken = require("./db/users/mdb-findone");
-const selectPublish = require("./db/publish/mdb-find");
+const getPublication = require("./db/publish/mdb-find");
 const verDatos = require("./ver-datos");
 const expHbs = require("express-handlebars");
 const mongodb = require("mongodb");
@@ -61,7 +61,7 @@ app.get("/home",auth, (req, res) =>{
   let mainTitle;
   let result;
 
-  selectPublish(
+  getPublication.getAllPublications(
     (err) => {
       console.log(err);
       res.render("error", {
@@ -99,13 +99,17 @@ app.get("/add", auth, (req, res) => {
   res.render("newPublictn", { username: req.session.user.user , title })
 });
 app.post("/newPublictn", (req, res) => {
+  const date = Date.now();
+  const actualTime = new Date(date);
   let content = req.body.publication;
   let data = {
+    date:actualTime.toDateString(),
+    author:req.session.user,
     contenido: content,
   };
   console.log(content);
   publish(data, verDatos.error, (result) => {
-    console.log(result);
+    //console.log(result);
   });
   res.redirect("/home");
 })
@@ -117,10 +121,10 @@ app.get("/login", (req, res) => {
 //  redirecciona al feed, sino mensaje de error en la misma vista de logueo
 app.post("/loginUsr", (req, res) => {
   const { user, pwd } = req.body;
-
+  let error = [];
   //en la vista de logueo no debería enviar nada sin poner ambos datos, pero por precaución lo dejé
   if (!user || !pwd) {
-    const error = "No ha ingresado todos los datos";
+    error.push("No ha ingresado todos los datos");
     res.render("login", { error, user, pwd, layout: "empty-layout" });
   }
   else {
@@ -134,7 +138,7 @@ app.post("/loginUsr", (req, res) => {
         res.redirect("/home");        
       }
       else{
-        const error = "usuario y/o contraseña incorrectos";
+        error.push("usuario y/o contraseña incorrectos");
         res.render("login", { error, user, layout: "empty-layout" });
       }
     })
@@ -195,6 +199,39 @@ app.post("/registerUsr", async (req, res) => {
   }
 
 });
+app.post("/search", auth, (req, res)=>{
+  let mainTitle;
+  let result;
+  const filterWord = req.body.filterWord;
+  getPublication.filterByWord(filterWord,
+    (err) => {
+      console.log(err);
+      res.render("error", {
+        mensajeError: err,
+      });
+    },
+
+    (filterPublication) => {
+      if (filterPublication.length > 0) {
+        result = `Hay ${filterPublication.length} resultado${filterPublication.length === 1 ? "" : "s"
+          } para tu consulta:`;
+      }
+      else {
+        result = "No hay resultados para tu consulta";
+      }
+
+      mainTitle = "Feed";
+
+      // Renderizo la vista "feed" con esos datos
+      res.render("feed", {
+        username: req.session.user.user,
+        publications: filterPublication,
+        //tituloResultados: result,
+        title: mainTitle,
+      });
+    }
+  );
+})
 //Este endpoint redirecciona siempre a "login" cuando se trata de ingresar a una ruta no autorizada o inexistente
 app.get('*',function (req, res) {
   res.redirect('/');

@@ -159,6 +159,13 @@ form{
   text-align: center;
  
 }
+#search-form{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: auto;
+  height: 0px;
+}
 textarea{
   border: .1px solid black;
 }
