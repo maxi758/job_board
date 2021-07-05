@@ -59,8 +59,6 @@ app.get("/", (req, res) => {
 app.get("/home",auth, (req, res) =>{
 
   let mainTitle;
-  let result;
-
   getPublication.getAllPublications(
     (err) => {
       console.log(err);
@@ -69,22 +67,12 @@ app.get("/home",auth, (req, res) =>{
       });
     },
 
-    (allPublictn) => {
-      if (allPublictn.length > 0) {
-        result = `Hay ${allPublictn.length} resultado${allPublictn.length === 1 ? "" : "s"
-          } para tu consulta:`;
-      }
-      else {
-        result = "No hay resultados para tu consulta";
-      }
-
+    (allPublictn) => {      
       mainTitle = "Feed";
-
       // Renderizo la vista "feed" con esos datos
       res.render("feed", {
         username: req.session.user.user,
         publications: allPublictn,
-        //tituloResultados: result,
         title: mainTitle,
       });
     }
