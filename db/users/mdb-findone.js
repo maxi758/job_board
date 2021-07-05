@@ -31,67 +31,40 @@ function searchUser(user, cbError, cbDatos) {
   });
 
 }
-//falta pulir esto, no hace lo que quiero, seguramente por la asincronía
-function isUserTaken(user) {
-  try{
-    mongodb.MongoClient.connect((dbConfig.url, {useNewUrlParser: true, useUnifiedTopology : true}, function(err, client) {
-      assert.equal(null, err);
-    //Step 1: declare promise
-        
-    var myPromise = () => {
-      return new Promise((resolve, reject) => {
-        const job_board = client.db(dbConfig.db);
-        const colUsers = job_board.collection(dbConfig.coleccion);
 
-          colUsers
-          .find({user: user})
-          .limit(1)
-          .toArray(function(err, data) {
-              err 
-                ? reject(err) 
-                : resolve(data[0]);
-            });
-      });
-    };
 
-    //Step 2: async promise handler
-    var callMyPromise = async () => {
-      
-      var result = await (myPromise());
-      //anything here is executed after result is resolved
-      return result;
-    };
+/**
+ * Busca un usuario según usuario y contraseña
+ * @param {string} user nombre de usuario
+ * @param {string} pwd contraseña
+ * @param {function} cbError callback de error
+ * @param {function} cbData callback que recibe datos de usuario
+ */
+const searchByUsernameAndPass = (user, pwd, cbError, cbData)=>{
 
-    //Step 3: make the call
-    callMyPromise().then(function(result) {
-      client.close();
-      
-    });
-  //end mongo client
+  mongodb.MongoClient.connect(dbConfig.url, (err, client)=> {
 
-  /*  let client = await mongodb.MongoClient.connect(dbConfig.url);
-
+    if (err) {
+      console.log("Hubo un error conectando con el servidor:", err);
+      cbError("hubo un error en la conexion, por favor intente nuevamente mas tarde");
+      return;
+    }
     const job_board = client.db(dbConfig.db);
     const colUsers = job_board.collection(dbConfig.coleccion);
-
-    const doc =  colUsers.findOne({ user : user }, function(err) {
-        
-        client.close();
-
-        if (err) {
-          console.log("Hubo un error al consultar:", err);
-          return ;
-        }
-        
+    colUsers.findOne({ user: user.toString(), pwd: pwd.toString() }, (err, userData)=>{
+      if (err) {
+        console.log("Hubo un error en la consulta", err);
+        cbError("hubo un error en la conexion, por favor intente nuevamente mas tarde");
+        return;
+      }
+      client.close();
+      cbData(userData);
     });
-    console.log(doc);*/
-  }));
-  } catch (excepcion ) {
-    excepcion.toString();
-}
+    
+  });
 }
 
 module.exports ={
-  searchUser : searchUser,
-  isUserTaken : isUserTaken,
+  searchUser,
+  searchByUsernameAndPass,
 } 

@@ -28,6 +28,7 @@ p{
 aside{
   width: 15%;
   border: 1px solid rgb(17, 72, 156);
+  border-radius: 12px;
   padding: 4px;
   margin: 0px 10px;
   text-align: center;
@@ -88,7 +89,7 @@ nav ul li{
   background-color: black;
 }
 nav li:hover{
-  border: 1px solid black;
+  border: .1px solid black;
 }
 
 body div{
@@ -128,26 +129,28 @@ body div{
   color: black;
 }
 .btn-logout{
+  background-color: #fff;
+  border: 1px solid black;
   height: 35px;
   vertical-align: top;
   margin-right: 6px;
   margin-bottom: 6px;
   padding: 10px;
-  border: none;
   border-radius: 6px;
   outline: none;
 }
 
 .btn-logout:hover{
   color: black;
-  border: black 1px solid;
+  border: 1px solid darkblue ;
   background-color: #fff;
+  
 }
 .btn-logout:focus{
   color: black;
 }
 form{
-  background-color: rgb(rgb(143, 16, 16), rgb(11, 81, 138), blue) ;
+  background-color: rgb( rgb(18, 54, 218)) ;
   padding: 10px;
   margin: 5px;
   box-sizing: border-box;
@@ -155,6 +158,9 @@ form{
   height: 300px;
   text-align: center;
  
+}
+textarea{
+  border: .1px solid black;
 }
 .container{
   display: flex;
