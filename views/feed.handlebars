@@ -1,13 +1,18 @@
 <!--<h2>{{tituloResultados}}:</h2> -->
 <div>
-  <a href="/add">Agrega una nueva publicacion</a>
+  <a class=" btn btn-outline-primary mb-3" href="/add">Agrega una nueva publicacion</a>
 </div>
-<div>
-  {{#each publications}}
-    <div>
-      <h4>{{this.author.user}}</h4>
-      <span>{{this.contenido}}</span>
-    </div>
-    
-  {{/each}}
+<div class="justify-content-center">
+  <div class="card w-50 bg-light text-black border-dark mb-3">
+    {{#each publications}}
+      <div "card-header  border-dark mx-3">
+        <h5>{{this.author.user}}</h5>
+        <h6>{{this.date}}</h6>
+        </div>
+      <div class="card-body border-dark bg-ligth">
+        <span id="showPublication">{{this.contenido}}</span>
+      </div>
+      
+    {{/each}}
+  </div>
 </div>

@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
   </head>
   <body>
     
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
-    <div class="contenido"> 
-      {{{error}}}
+    <div class="d-flex justify-content-center flex-column container"> 
+      
       {{{body}}}
-     
+      {{{error}}}
     </div>
 
     

@@ -31,6 +31,8 @@ app.engine(
     layoutsDir: "views/layouts",
   })
 );
+app.use(express.static(path.join(__dirname, "/node_modules/bootstrap/dist/css")));
+  
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 /************************************************/
@@ -50,6 +52,9 @@ const auth = function(req, res, next) {
   else
     return res.redirect("/");
 };
+
+//Este endpoint redirecciona siempre a "login" cuando se trata de ingresar a una ruta no autorizada o inexistente
+
 // GET inicial, envia hacia el registro por ahora
 //mi idea es hacer una vista más con botones hacia login o register
 app.get("/", (req, res) => {
@@ -87,11 +92,10 @@ app.get("/add", auth, (req, res) => {
   res.render("newPublictn", { username: req.session.user.user , title })
 });
 app.post("/newPublictn", (req, res) => {
-  const date = Date.now();
-  const actualTime = new Date(date);
+  const PublicationDate = fechaYHora();
   let content = req.body.publication;
   let data = {
-    date:actualTime.toDateString(),
+    date:PublicationDate,
     author:req.session.user,
     contenido: content,
   };
@@ -139,8 +143,11 @@ app.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 //++++++++++++++ REGISTER ++++++++++++++++++++++++++++
+app.get("/register", (req, res)=>{
+  res.render("register", {layout: "empty-layout"});
+});
 app.post("/registerUsr", async (req, res) => {
-  let errors = [];
+  let error = [];
   const { user, pwd, pwdRep } = req.body;
   let data = {
     user: user,
@@ -154,8 +161,8 @@ app.post("/registerUsr", async (req, res) => {
   }
   else if (pwd !== pwdRep) {
 
-    errors.push("La clave y su repetición no son iguales");
-    res.render("register", { errors, user, layout: "empty-layout" });
+    error.push("La clave y su repetición no son iguales");
+    res.render("register", { error, user, layout: "empty-layout" });
   }
   else {
     mongodb.MongoClient.connect(dbConfig.url, async function (err, client) {
@@ -172,9 +179,9 @@ app.post("/registerUsr", async (req, res) => {
       if (result.length > 0) {
         console.log("este usuario ya existe");
 
-        errors.push("Este usuario ya está registrado");
+        error.push("Este usuario ya está registrado");
 
-        res.render("register", { errors, user, pwd, pwdRep, layout: "empty-layout" });
+        res.render("register", { error, user, pwd, pwdRep, layout: "empty-layout" });
       }
       else {
         userRegister(data, verDatos.error, (resultado) => {
@@ -220,11 +227,26 @@ app.post("/search", auth, (req, res)=>{
     }
   );
 })
-//Este endpoint redirecciona siempre a "login" cuando se trata de ingresar a una ruta no autorizada o inexistente
+
+
 app.get('*',function (req, res) {
-  res.redirect('/');
+  res.redirect('/home');
 });
 // Inicio server
 app.listen(PUERTO, function () {
   console.log(`Servidor iniciado en puerto ${PUERTO}...`);
 });
+
+function fechaYHora() {
+  const date = new Date();
+
+  const anio = date.getFullYear().toString();
+  const mes = (date.getMonth() + 1).toString().padStart(2, "0");
+  const dia = date.getDate().toString().padStart(2, "0");
+  const hora = date.getHours().toString().padStart(2, "0");
+  const mins = date.getMinutes().toString().padStart(2, "0");
+  const segs = date.getSeconds().toString().padStart(2, "0");
+  const mils = date.getMilliseconds().toString();
+
+  return `${dia}-${mes}-${anio}  ${hora}:${mins}`;
+}

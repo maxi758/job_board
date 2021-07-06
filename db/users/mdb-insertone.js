@@ -1,5 +1,6 @@
 const mongodb = require("mongodb");
 const dbConfig = require("./dbConfig");
+const bcrypt = require("bcrypt");
 
 function crearUsuario(users, cbError, cbResultado) {
   

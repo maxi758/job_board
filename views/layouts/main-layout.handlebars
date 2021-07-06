@@ -5,37 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
   </head>
-  <body>
+  <body >
     <header>
-      <nav>
-        <a href="/home"><img src="img/logo_size.jpg" alt=""></a>
-        <ul>
-          <form action="search" method="post" id="search-form">
-            <li><input type="text" id="filterWord" name="filterWord" /></li>
-            <li><button type="submit" id="btn-buscar">Buscar</button></li>
-          </form>
-          
-        </ul>
-        <a href="/logout" class="btn-logout">Cerrar Sesion</a>       
+      <nav class="navbar navbar-light bg-light border-primary">
+        <div class="container-fluid">
+        <a href="/home" class="navbar-brand"><img src="img/logo_size.jpg" alt="">Job Board</a>
+        <form action="search" method="post" class="navbar-form form-inline my-2 my-lg-0" id="search-form" role="search">
+          <div class="d-flex">
+            <input class="form-control mr-sm-2" type="search" id="filterWord" name="filterWord" placeholder="Buscar" aria-label="Search">
+            <button href="/home" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+          </div>
+        </form>
+        <a href="/logout" class=" btn btn-outline-danger">Cerrar Sesion</a>    
+        </div>
+           
       </nav>
       
     </header>
-    <aside id="izq"><span>{{username}}</span></aside>
+    
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
-    <div class="contenido">
-      {{{body}}}
-      {{{error}}}
+    <div class="container">
+      <div class="row">
+        <div  id="izq" class="col-xl-2 ">
+          <div class="card  bg-light text-black border-dark  ">
+            <div class="card-body border-dark bg-ligth">
+              <span>{{username}}</span>
+            </div>
+          </div>
+        </div>  
+        <div class="col-xl-8 justify-content-center">
+          {{{body}}}
+          {{{error}}}
+        </div>
+        <div  class="col-xl-2" id="der">
+          <div class="card  bg-light text-black border-dark ">
+          <ul class="list-unstyled">
+            <li><a href="">Acerca de</a></li>
+            <li><a href="">Politicas y privacidad</a></li>
+            <li><a href="">Publicita aquí</a></li>
+          </ul>
+          </div>
+        </aside>
+      </div>
     </div>
-    <aside id="der">
-      <ul>
-        <li><a href="">Acerca de</a></li>
-        <li><a href="">Politicas y privacidad</a></li>
-        <li><a href="">Publicita aquí</a></li>
-      </ul>
-    </aside>
-
     
   </body>
 </html>

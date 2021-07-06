@@ -1,12 +1,8 @@
 body {
-  width: 95%;
-  max-width: 1000px;
   font-family: monospace;
-  background-color: rgb(231, 236, 232);
+  background-color: rgba(231, 236, 232, 0.747);
 }
-header{
-  width: 90%;
-}
+
 /*h2{
   color: rgb(212, 190, 60);
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -22,23 +18,10 @@ p{
   margin-right: 4px;
   vertical-align: middle;
 }
- .contenido, aside{
+ /*.container, aside{
   display: inline-block;
 }
-aside{
-  width: 15%;
-  border: 1px solid rgb(17, 72, 156);
-  border-radius: 12px;
-  padding: 4px;
-  margin: 0px 10px;
-  text-align: center;
-}
-#izq, .contenido{
-  float: left;
-}
-#der, .contenido{
-  float: right;
-}
+
 #der ul{
   text-decoration: none;
   list-style: none;
@@ -57,43 +40,12 @@ aside{
   float: initial;
   background-color: aliceblue;
 }
-nav{
-  vertical-align: middle;
-  text-align: center;
-  width: 90%;
-  list-style-type: none;
-  margin-bottom: 5%;
-}
-nav ul{
-  text-decoration: none;
-  color: aliceblue;
-  font-size: large;
-  list-style: none;
-  display: inline-block;
-}
-nav a:hover{
-  color: black;
-}
-nav a:focus{
-  color: goldenrod;
-}
-nav ul li{
-  height: 45px;
-  text-decoration: none;
-  list-style: none;
-  display: inline-block;
-  border: 1px solid white;
-  border-radius: 12px;
-  padding: 4px;
-  margin: 4px;
-  background-color: black;
-}
-nav li:hover{
-  border: .1px solid black;
-}
+*/
 
-body div{
-  display: block;
+
+
+.row{
+  display: inline-block;
 }
 .div-style{
   display: flex;
@@ -118,9 +70,7 @@ body div{
   width: 7em;
   font-size: large;
 }
-#btn-register{
-  width: 10em;
-}
+
 .btn-submit:hover{
   color: black;
   border: black 1px solid;
@@ -149,33 +99,22 @@ body div{
 .btn-logout:focus{
   color: black;
 }
-form{
-  background-color: rgb( rgb(18, 54, 218)) ;
-  padding: 10px;
-  margin: 5px;
-  box-sizing: border-box;
-  width: 450px;
-  height: 300px;
-  text-align: center;
- 
-}
-#search-form{
-  margin: 0;
-  padding: 0;
-  border: 0;
-  width: auto;
-  height: 0px;
-}
+
 textarea{
   border: .1px solid black;
 }
-.container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 
 #publication{
   box-sizing:border-box;
 
+}
+#showPublication {
+  display: inline-block;
+  height: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-width: 350px;
+  padding: 4px;
 }
