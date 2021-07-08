@@ -3,14 +3,12 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const userRegister = require("./db/users/mdb-insertone");
-const publish = require("./db/publish/mdb-insertone");
-const showPublictn = require("./db/publish/ver-datos");
-const isTaken = require("./db/users/mdb-findone");
+const createPublication = require("./db/publish/mdb-insertone");
+const getAllPublications = require("./db/publish/ver-datos");
+const searchUser = require("./db/users/mdb-findone");
 const getPublication = require("./db/publish/mdb-find");
 const verDatos = require("./ver-datos");
 const expHbs = require("express-handlebars");
-const mongodb = require("mongodb");
-const dbConfig = require("./db/users/dbConfig");
 const expSession = require("express-session");
 
 /**/
@@ -72,12 +70,12 @@ app.get("/home",auth, (req, res) =>{
       });
     },
 
-    (allPublictn) => {      
+    (allPublications) => {      
       mainTitle = "Feed";
       // Renderizo la vista "feed" con esos datos
       res.render("feed", {
         username: req.session.user.user,
-        publications: allPublictn,
+        publications: allPublications,
         title: mainTitle,
       });
     }
@@ -100,7 +98,7 @@ app.post("/newPublictn", (req, res) => {
     contenido: content,
   };
   console.log(content);
-  publish(data, verDatos.error, (result) => {
+  createPublication(data, verDatos.error, (result) => {
     //console.log(result);
   });
   res.redirect("/home");
@@ -120,9 +118,9 @@ app.post("/loginUsr", (req, res) => {
     res.render("login", { error, user, pwd, layout: "empty-layout" });
   }
   else {
-    isTaken.searchByUsernameAndPass(user, pwd, (errorMsg) => {
-      
-      res.render("login", { error: errorMsg, user, layout: "empty-layout" });
+    searchUser.searchByUsernameAndPass(user, pwd, (errorMsg) => {
+      //hacer pagina de errores del servidor
+      res.render("errorServer", { error: errorMsg, user, layout: "empty-layout" });
     }, (userData) => {
       console.log(userData);
       if (userData) {
@@ -146,7 +144,7 @@ app.get("/logout", (req, res) => {
 app.get("/register", (req, res)=>{
   res.render("register", {layout: "empty-layout"});
 });
-app.post("/registerUsr", async (req, res) => {
+app.post("/registerUsr", (req, res) => {
   let error = [];
   const { user, pwd, pwdRep } = req.body;
   let data = {
@@ -165,32 +163,27 @@ app.post("/registerUsr", async (req, res) => {
     res.render("register", { error, user, layout: "empty-layout" });
   }
   else {
-    mongodb.MongoClient.connect(dbConfig.url, async function (err, client) {
-
-      if (err) {
-        console.log("Hubo un error conectando con el servidor:", err);
-        return;
+    searchUser.searchByUsername(user,
+      (errorMsg)=>{
+        console.log(errorMsg);
+      },
+      (userData) => {
+        console.log(userData);
+        if (userData) {
+          console.log("este usuario ya existe");
+          error.push("Este usuario ya está registrado");
+          res.render("register", { error, user, pwd, pwdRep, layout: "empty-layout" });
+        }
+        else {
+          userRegister(data, (errorMsg) => {
+            res.render("errorServer", { error: errorMsg, user, layout: "empty-layout" });
+            },()=>{
+              res.redirect("/home");
+            }      
+          );
+        }
       }
-      const job_board = client.db(dbConfig.db);
-      const colUsers = job_board.collection(dbConfig.coleccion);
-      let result = await colUsers.find({ user: user.toString() }).limit(1).toArray();
-      client.close();
-      console.log(result);
-      if (result.length > 0) {
-        console.log("este usuario ya existe");
-
-        error.push("Este usuario ya está registrado");
-
-        res.render("register", { error, user, pwd, pwdRep, layout: "empty-layout" });
-      }
-      else {
-        userRegister(data, verDatos.error, (resultado) => {
-          console.log(resultado);
-          // consultarProductos(verDatos.error, verDatos.listaProductos);
-        });
-        res.redirect("/home");
-      }
-    });
+    )
   }
 
 });
