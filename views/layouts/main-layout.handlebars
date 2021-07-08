@@ -26,25 +26,25 @@
     </header>
     
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
-    <div class="container">
+    <div class="container-sm ">
       <div class="row">
-        <div  id="izq" class="col-xl-2 ">
+        <div  id="izq" class="col-xl-2">
           <div class="card  bg-light text-black border-dark  ">
-            <div class="card-body border-dark bg-ligth">
-              <span>{{username}}</span>
+            <div class="card-body border-dark bg-ligth text-center">
+              <span class="text-center">{{username}}</span>
             </div>
           </div>
         </div>  
-        <div class="col-xl-8 justify-content-center">
+        <div class="col-xl-8">
           {{{body}}}
           {{{error}}}
         </div>
-        <div  class="col-xl-2" id="der">
+        <div  class="col-xl-2 mb-n5" id="der">
           <div class="card  bg-light text-black border-dark ">
-          <ul class="list-unstyled">
-            <li><a href="">Acerca de</a></li>
-            <li><a href="">Politicas y privacidad</a></li>
-            <li><a href="">Publicita aquí</a></li>
+          <ul class="list-unstyled text-center">
+            <li><a href="/html/aboutUs.html" class="link-dark">Acerca de</a></li>
+            <li><a href="" class="link-dark">Politicas y privacidad</a></li>
+            <li><a href="" class="link-dark">Publicita aquí</a></li>
           </ul>
           </div>
         </aside>
