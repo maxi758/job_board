@@ -1,22 +1,23 @@
-<!-- Este layout es para las vistas en las cuales el usuario aún no esté logueado -->
+
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
   </head>
   <body>
     
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
     <div class="d-flex justify-content-center flex-column container"> 
+      {{>messages}}
+      {{{body}}}   
       
-      {{{body}}}
-      {{{error}}}
     </div>
-
+    <script src="/js/bootstrap.min.js" type="text/javascript" crossorigin="anonymous"></script>
     
   </body>
 </html>

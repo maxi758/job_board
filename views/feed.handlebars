@@ -2,15 +2,15 @@
 <div>
   <a class=" btn btn-outline-primary mb-3" href="/add">Agrega una nueva publicacion</a>
 </div>
-<div class="justify-content-center">
-  <div class="card w-50 bg-light text-black border-dark mb-3">
+<div class="card w-50 bg-light text-black border-dark mb-3">
+  <div class="card-block border-primary justify-content-center">
     {{#each publications}}
       <div "card-header  border-dark mx-3">
         <h5 class="ms-2">{{this.author.user}}</h5>
         <h6 class="ms-2">{{this.date}}</h6>
         </div>
       <div class="card-body border-dark bg-ligth">
-        <span id="showPublication">{{this.contenido}}</span>
+        <span class="border-dark" id="showPublication">{{this.contenido}}</span>
       </div>
       
     {{/each}}

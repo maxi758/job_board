@@ -10,7 +10,7 @@ const getPublication = require("./db/publish/mdb-find");
 const verDatos = require("./ver-datos");
 const expHbs = require("express-handlebars");
 const expSession = require("express-session");
-
+const flash = require("connect-flash");
 /**/
 app.use(
   expSession({
@@ -20,19 +20,22 @@ app.use(
     path: '/',
   })
 );
-
+//flash
+app.use(flash());
 /*** Configuración de Handlebars para Express ***/
+app.set("view engine", "handlebars");
+app.set("views", path.join(__dirname, "views"));
 app.engine(
   "handlebars",
   expHbs({
-    defaultLayout: "main-layout",
+    defaultLayout: "private-layout",
     layoutsDir: "views/layouts",
+    partialsDir: "views/partials",
   })
 );
-app.use(express.static(path.join(__dirname, "/node_modules/bootstrap/dist/css")));
-  
-app.set("view engine", "handlebars");
-app.set("views", path.join(__dirname, "views"));
+app.use("/js", express.static(path.join(__dirname + "/node_modules/bootstrap/dist/js"))); 
+app.use("/css",express.static(path.join(__dirname, "/node_modules/bootstrap/dist/css")));
+
 /************************************************/
 
 const PUERTO = 3000;
@@ -51,12 +54,18 @@ const auth = function(req, res, next) {
     return res.redirect("/");
 };
 
+app.use((req, res, next)=>{
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+
+  next();
+});
 //Este endpoint redirecciona siempre a "login" cuando se trata de ingresar a una ruta no autorizada o inexistente
 
 // GET inicial, envia hacia el registro por ahora
 //mi idea es hacer una vista más con botones hacia login o register
 app.get("/", (req, res) => {
-  res.render("login", { layout: "empty-layout" });
+  res.render("login", { layout: "public-layout" });
 });
 //Una vez logueado se puede ver el feed de publicaciones (faltan estilos)
 app.get("/home",auth, (req, res) =>{
@@ -105,7 +114,7 @@ app.post("/newPublictn", (req, res) => {
 })
 //+++++++++++++++++ LOGIN +++++++++++++++++++++++++++++++++
 app.get("/login", (req, res) => {
-  res.render("login", { layout: "empty-layout" });
+  res.render("login", { layout: "public-layout" });
 });
 // POST a /login, verifica que user y password sean de un usuario registrado, en ese caso
 //  redirecciona al feed, sino mensaje de error en la misma vista de logueo
@@ -114,13 +123,13 @@ app.post("/loginUsr", (req, res) => {
   let error = [];
   //en la vista de logueo no debería enviar nada sin poner ambos datos, pero por precaución lo dejé
   if (!user || !pwd) {
-    error.push("No ha ingresado todos los datos");
-    res.render("login", { error, user, pwd, layout: "empty-layout" });
+    req.flash("error_msg", "No ha ingresado todos los datos");
+    res.redirect("/login");
   }
   else {
     searchUser.searchByUsernameAndPass(user, pwd, (errorMsg) => {
       //hacer pagina de errores del servidor
-      res.render("errorServer", { error: errorMsg, user, layout: "empty-layout" });
+      res.render("errorServer", { error: errorMsg, user, layout: "public-layout" });
     }, (userData) => {
       console.log(userData);
       if (userData) {
@@ -128,8 +137,8 @@ app.post("/loginUsr", (req, res) => {
         res.redirect("/home");        
       }
       else{
-        error.push("usuario y/o contraseña incorrectos");
-        res.render("login", { error, user, layout: "empty-layout" });
+        req.flash("error_msg", "usuario y/o contraseña incorrectos");
+        res.redirect("/login");
       }
     })
   }
@@ -142,10 +151,10 @@ app.get("/logout", (req, res) => {
 });
 //++++++++++++++ REGISTER ++++++++++++++++++++++++++++
 app.get("/register", (req, res)=>{
-  res.render("register", {layout: "empty-layout"});
+  res.render("register", {layout: "public-layout"});
 });
 app.post("/registerUsr", (req, res) => {
-  let error = [];
+
   const { user, pwd, pwdRep } = req.body;
   let data = {
     user: user,
@@ -154,13 +163,13 @@ app.post("/registerUsr", (req, res) => {
   //por el required del for no entraria al primer if, pero lo dejé hasta consultar
   if (!user || !pwd || !pwdRep) {
 
-    errors.push("Deben completarse los tres campos");
-    res.render("register", { errors, user, layout: "empty-layout" });
+    req.flash("error_msg", "Deben completarse los tres campos");
+    res.render("register", { user, layout: "public-layout" });
   }
   else if (pwd !== pwdRep) {
 
-    error.push("La clave y su repetición no son iguales");
-    res.render("register", { error, user, layout: "empty-layout" });
+    req.flash("error_msg", "Las contraseñas ingresadas no coinciden");
+    res.render("register", {user, layout: "public-layout" });
   }
   else {
     searchUser.searchByUsername(user,
@@ -171,14 +180,22 @@ app.post("/registerUsr", (req, res) => {
         console.log(userData);
         if (userData) {
           console.log("este usuario ya existe");
-          error.push("Este usuario ya está registrado");
-          res.render("register", { error, user, pwd, pwdRep, layout: "empty-layout" });
+          setTimeout(() => {
+            req.flash("error_msg", "Este usuario ya está registrado");
+            //res.render("register", { user, pwd, pwdRep, layout: "public-layout" });
+            res.redirect("/register")
+          }, 3000);
+          
         }
         else {
           userRegister(data, (errorMsg) => {
-            res.render("errorServer", { error: errorMsg, user, layout: "empty-layout" });
+            res.render("errorServer", { error: errorMsg, user, layout: "public-layout" });
             },()=>{
-              res.redirect("/home");
+              req.flash("success_msg", "Se ha registrado exitosamente");
+              setTimeout(() => {
+                res.redirect("/login");
+              }, 3000);
+              
             }      
           );
         }
