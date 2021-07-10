@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
 const dbConfig = require("./dbConfig");
 
-function deleteOne(stringId, cbError, cbResult) {
+function deletePublication(stringId, cbError, cbResult) {
 
   mongodb.MongoClient.connect(dbConfig.url, function(err, client) {
 
@@ -31,4 +31,4 @@ function deleteOne(stringId, cbError, cbResult) {
 
 }
 
-module.exports = deleteOne;
+module.exports = deletePublication;

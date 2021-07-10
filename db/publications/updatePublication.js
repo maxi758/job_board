@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
 const dbConfig = require("./dbConfig");
 
-function updatePublish(stringId, content, cbError, cbResult) {
+function updatePublication(stringId, content, cbError, cbResult) {
   mongodb.MongoClient.connect(dbConfig.url, function (err, client) {
     if (err) {
       console.log("Hubo un error conectando con el servidor:", err);
@@ -34,4 +34,4 @@ function updatePublish(stringId, content, cbError, cbResult) {
   });
 }
 
-module.exports = updatePublish;
+module.exports = updatePublication;

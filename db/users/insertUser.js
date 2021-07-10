@@ -1,7 +1,8 @@
 const mongodb = require("mongodb");
 const dbConfig = require("./dbConfig");
+const bcrypt = require("bcrypt");
 
-function insertOne(publish, cbError, cbResult) {
+function insertUser(users, cbError, cbResultado) {
   
   mongodb.MongoClient.connect(dbConfig.url, function(err, client) {
 
@@ -12,9 +13,9 @@ function insertOne(publish, cbError, cbResult) {
     }
 
     const job_board = client.db(dbConfig.db);
-    const colPublish = job_board.collection(dbConfig.coleccion);
+    const colUsers = job_board.collection(dbConfig.coleccion);
 
-    colPublish.insertOne(publish, function(err, result) {
+    colUsers.insertOne(users, function(err, resultado) {
 
       client.close();
 
@@ -24,11 +25,11 @@ function insertOne(publish, cbError, cbResult) {
         return;
       }
 
-      cbResult(result);
+      cbResultado(resultado);
     });
 
   });
 
 }
 
-module.exports = insertOne;
+module.exports = insertUser;

@@ -1,8 +1,7 @@
 const mongodb = require("mongodb");
 const dbConfig = require("./dbConfig");
-const bcrypt = require("bcrypt");
 
-function crearUsuario(users, cbError, cbResultado) {
+function insertPublication(publish, cbError, cbResult) {
   
   mongodb.MongoClient.connect(dbConfig.url, function(err, client) {
 
@@ -13,9 +12,9 @@ function crearUsuario(users, cbError, cbResultado) {
     }
 
     const job_board = client.db(dbConfig.db);
-    const colUsers = job_board.collection(dbConfig.coleccion);
+    const colPublish = job_board.collection(dbConfig.coleccion);
 
-    colUsers.insertOne(users, function(err, resultado) {
+    colPublish.insertOne(publish, function(err, result) {
 
       client.close();
 
@@ -25,11 +24,11 @@ function crearUsuario(users, cbError, cbResultado) {
         return;
       }
 
-      cbResultado(resultado);
+      cbResult(result);
     });
 
   });
 
 }
 
-module.exports = crearUsuario;
+module.exports = insertPublication;
