@@ -4,8 +4,25 @@ const path = require("path");
 const app = express();
 const getPublication = require("./db/publications/getPublication");
 const expHbs = require("express-handlebars");
-const flash = require("flash");
 const session = require("./routes/utils").session;
+const cookieParser = require("cookie-parser");
+const flash = require("connect-flash");
+
+//Parse Cookie header and populate req.cookies with an object keyed by the cookie names
+app.use(cookieParser("secret"));
+
+//session config
+app.use(session.expSession({
+  secret: "secret",
+  cookie: {
+    maxAge: 4000000
+  },
+  resave: false,
+  saveUninitialized: false,
+  path: '/',
+}));
+
+
 //flash
 app.use(flash());
 /*** Configuración de Handlebars para Express ***/
@@ -94,7 +111,8 @@ app.use("userRegister", userRegister);
 
 //++++++++++++++++++++++++++++++++++++++++++++
 
-
+// la finalidad de este middleware es redireccionar a inicio o login 
+//cuando se ingresen rutas inaccesibles
 app.get('*',function (req, res) {
   res.redirect('/home');
 });
@@ -102,5 +120,3 @@ app.get('*',function (req, res) {
 app.listen(PUERTO, function () {
   console.log(`Servidor iniciado en puerto ${PUERTO}...`);
 });
-
-

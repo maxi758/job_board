@@ -8,6 +8,7 @@ const routerRegister = express.Router();
 routerRegister.get("/register", (req, res)=>{
   res.render("register", {layout: "public-layout"});
 });
+
 routerRegister.post("/registerUsr", (req, res) => {
 
   const { user, pwd, pwdRep } = req.body;
@@ -24,7 +25,8 @@ routerRegister.post("/registerUsr", (req, res) => {
   else if (pwd !== pwdRep) {
 
     req.flash("error_msg", "Las contraseñas ingresadas no coinciden");
-    res.render("register", {user, layout: "public-layout" });
+    //res.render("register", {user, layout: "public-layout" });
+    res.redirect("/register");
   }
   else {
     getUser.searchByUsername(user,
@@ -35,9 +37,9 @@ routerRegister.post("/registerUsr", (req, res) => {
         console.log(userData);
         if (userData) {
           console.log("este usuario ya existe");
-          setTimeout(() => {
-            req.flash("error_msg", "Este usuario ya está registrado");
-            //res.render("register", { user, pwd, pwdRep, layout: "public-layout" });
+          req.flash("error_msg", `El nombre de usuario "${user}" ya está registrado`);
+          setTimeout(() => {           
+           // res.render("register", { user, pwd, pwdRep, layout: "public-layout" });
             res.redirect("/register")
           }, 3000);
           

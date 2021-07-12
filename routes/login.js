@@ -1,7 +1,6 @@
 const express = require("express");
 const getUser = require("../db/users/db-users").getUser;
 const path = require("path");
-const session = require("./utils");
 
 const routerLogin = express.Router();
 

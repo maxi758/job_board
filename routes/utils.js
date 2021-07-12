@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const expSession = require("express-session");
 
-app.use(
+ app.use(
   expSession({
     secret: ["esto me esta costando una banda"],
     resave: false,
