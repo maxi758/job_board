@@ -2,9 +2,25 @@
 <div>
   <a class=" btn btn-outline-primary mb-3" href="/add">Agrega una nueva publicacion</a>
 </div>
+{{#each publications}}
 <div class="card w-50 bg-light text-black border-dark mb-3">
+  <div class="card-header">
+    <div class="dropdown text-end">
+      <button class="btn btn-secondary " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       <i class="fas fa-ellipsis-h"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {{#ifEquals this.author.user username}}
+        <li><a class="dropdown-item" href="/editForm/{{_id}}">Editar</a></li>
+        {{/ifEquals}}
+        <li><a class="dropdown-item" href="#">Borrar</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+   
+  </div>
   <div class="card-block border-primary justify-content-center">
-    {{#each publications}}
+    
       <div "card-header  border-dark mx-3">
         <h5 class="ms-2">{{this.author.user}}</h5>
         <h6 class="ms-2">{{this.date}}</h6>
@@ -13,6 +29,7 @@
         <span class="border-dark" id="showPublication">{{this.contenido}}</span>
       </div>
       
-    {{/each}}
+    
   </div>
 </div>
+{{/each}}

@@ -5,11 +5,11 @@ const getUser = require("../db/users/db-users").getUser;
 
 const routerRegister = express.Router();
 
-routerRegister.get("/register", (req, res)=>{
+routerRegister.get("/registerForm", (req, res)=>{
   res.render("register", {layout: "public-layout"});
 });
 
-routerRegister.post("/registerUsr", (req, res) => {
+routerRegister.post("/register", (req, res) => {
 
   const { user, pwd, pwdRep } = req.body;
   let data = {

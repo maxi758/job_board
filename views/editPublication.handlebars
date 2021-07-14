@@ -1,0 +1,18 @@
+<form action="" method="post">
+  
+</form>
+<div class="container">
+  <form action="/edit/{{publication._id}} " method="post" class="row g-3 p-3" role="form">
+    <input type="hidden" name="id" value="{{publication.id}}" style="display: none;" />
+    <div class="form-group">
+      <label for="texto" class="col-sm-3 col-form-label"></label>
+      <textarea type="text" class="form-control" rows="5" name="editPublication" id="editPublication" cols="30" rows="10"  >
+       {{publication.contenido}}ll
+      </textarea>
+    </div>
+    
+    <div class="col-12 d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary" value="Publicar" id="btn-submit">Publicar
+    </div>
+  </form>
+</div>

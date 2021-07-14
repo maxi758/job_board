@@ -4,18 +4,18 @@ const path = require("path");
 
 const routerLogin = express.Router();
 
-routerLogin.get("/login", (req, res) => {
+routerLogin.get("/loginForm", (req, res) => {
   res.render("login", { layout: "public-layout" });
 });
 // POST a /login, verifica que user y password sean de un usuario registrado, en ese caso
 //  redirecciona al feed, sino mensaje de error en la misma vista de logueo
-routerLogin.post("/loginUsr", (req, res) => {
+routerLogin.post("/login", (req, res) => {
   const { user, pwd } = req.body;
   let error = [];
   //en la vista de logueo no debería enviar nada sin poner ambos datos, pero por precaución lo dejé
   if (!user || !pwd) {
     req.flash("error_msg", "No ha ingresado todos los datos");
-    res.redirect("/login");
+    res.redirect("/loginForm");
   }
   else {
     getUser.searchByUsernameAndPass(user, pwd, (errorMsg) => {
@@ -29,7 +29,7 @@ routerLogin.post("/loginUsr", (req, res) => {
       }
       else{
         req.flash("error_msg", "usuario y/o contraseña incorrectos");
-        res.redirect("/login");
+        res.redirect("/loginForm");
       }
     })
   }

@@ -26,8 +26,9 @@ app.use(session.expSession({
 //flash
 app.use(flash());
 /*** Configuración de Handlebars para Express ***/
-app.set("view engine", "handlebars");
+
 app.set("views", path.join(__dirname, "views"));
+
 app.engine(
   "handlebars",
   expHbs({
@@ -36,8 +37,16 @@ app.engine(
     partialsDir: "views/partials",
   })
 );
-app.use("/js", express.static(path.join(__dirname + "/node_modules/bootstrap/dist/js"))); 
+app.set("view engine", "handlebars");
+var hbsHelper = expHbs.create({});
+hbsHelper.handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+});
+
+app.use("/js", express.static(path.join(__dirname + "/node_modules/bootstrap/dist/js")));
+//app.use("/js", express.static(path.join(__dirname + "/node_modules/@fontawesome/js"))); 
 app.use("/css",express.static(path.join(__dirname, "/node_modules/bootstrap/dist/css")));
+app.use("/css", express.static(path.join(__dirname, "/node")));
 
 /************************************************/
 
@@ -91,12 +100,13 @@ const publication = require("./routes/publications");
 app.use(publication);
 app.use("/add", publication);
 app.use("/newPublication", publication); 
-app.use("search", publication);
+app.use("/search", publication);
+app.use("/edit", publication);
 //+++++++++++++++++ LOGIN +++++++++++++++++++++++++++++++++
 const login = require("./routes/login");
 app.use(login);
+app.use("/loginForm", login);
 app.use("/login", login);
-app.use("/loginUsr", login);
 
 //+++++++++++++ Me gustaria que confirme si realmente quiere salir, queda pendiente ++++++++++++++++
 app.get("/logout", (req, res) => {
@@ -105,9 +115,10 @@ app.get("/logout", (req, res) => {
 });
 //++++++++++++++ REGISTER ++++++++++++++++++++++++++++
 const userRegister = require("./routes/register");
+const { ExpressHandlebars } = require("express-handlebars");
 app.use(userRegister);
+app.use("registerForm", userRegister);
 app.use("register", userRegister);
-app.use("userRegister", userRegister);
 
 //++++++++++++++++++++++++++++++++++++++++++++
 

@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const createPublication = require("../db/publications/db-publications").createpublication;
 const getPublication = require("../db/publications/db-publications").getPublication;
+const updatePublication = require("../db/publications/db-publications").updatePublication;
 const session = require("./utils").session;
 const dateAndHour = require("./utils").dateAndHour;
 const routerPublication = express.Router();
@@ -60,4 +61,30 @@ routerPublication.post("/search", (req, res)=>{
   );
 })
 
+routerPublication.get("/editForm/:id", session.auth, (req,res)=>{
+  getPublication.getPublicationById(req.params.id,
+    (errorMsg)=>{
+      console.log(errorMsg);
+      res.render("errorServer");
+    },
+    (publicationData)=>{
+      console.log(publicationData);
+      res.render("editPublication", {username: req.session.user.user,
+        publication:publicationData} );
+    });
+  
+});
+
+routerPublication.post("/edit/:id", session.auth, (req, res)=>{
+  const id = req.params.id;
+  const editPublication = req.body.editPublication;
+  updatePublication(id.toString(), editPublication,
+    (errorMsg)=>{
+      console.log(errorMsg);
+      res.render("errorServer");
+    },
+    (publicationData)=>{
+      res.redirect("/home");
+    } )
+})
 module.exports = routerPublication;

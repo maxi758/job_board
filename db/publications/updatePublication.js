@@ -1,8 +1,8 @@
 const mongodb = require("mongodb");
 const dbConfig = require("./dbConfig");
 
-function updatePublication(stringId, content, cbError, cbResult) {
-  mongodb.MongoClient.connect(dbConfig.url, function (err, client) {
+const updatePublication = (stringId, content, cbError, cbResult)=> {
+  mongodb.MongoClient.connect(dbConfig.url, (err, client)=> {
     if (err) {
       console.log("Hubo un error conectando con el servidor:", err);
       cbError(err);
@@ -12,8 +12,8 @@ function updatePublication(stringId, content, cbError, cbResult) {
     const job_board = client.db(dbConfig.db);
     const colPublish = job_board.collection(dbConfig.coleccion);
 
-    colPublish.updateOne(
-      { _id: mongodb.ObjectId(stringId) },
+    colPublish.findOneAndUpdate(
+      { _id: mongodb.ObjectId(stringId.trim()) },
       {
         $set: {
           contenido: content,
