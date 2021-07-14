@@ -16,9 +16,10 @@ routerPublication.get("/add", session.auth, (req, res) => {
 });
 routerPublication.post("/newPublication", (req, res) => {
   let content = req.body.publication;
+  const {_id, user} = req.session.user;
   let data = {
     date:dateAndHour(),
-    author:req.session.user,
+    author:{_id, user},
     contenido: content,
   };
   console.log(content);
