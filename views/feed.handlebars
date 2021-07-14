@@ -1,6 +1,6 @@
 <!--<h2>{{tituloResultados}}:</h2> -->
 <div>
-  <a class=" btn btn-outline-primary mb-3" href="/add">Agrega una nueva publicacion</a>
+  <a class=" btn btn-outline-primary mb-3" href="/add">{{username}} Agrega una nueva publicacion</a>
 </div>
 {{#each publications}}
 <div class="card w-50 bg-light text-black border-dark mb-3">
@@ -10,11 +10,11 @@
        <i class="fas fa-ellipsis-h"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {{#ifEquals this.author.user username}}
+        {{#ifEquals this.author.user ../username }}        
         <li><a class="dropdown-item" href="/editForm/{{_id}}">Editar</a></li>
+        <li><a class="dropdown-item" href="/delete/{{_id}}">Borrar</a></li>
         {{/ifEquals}}
-        <li><a class="dropdown-item" href="#">Borrar</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li><a class="dropdown-item" href="#"></a></li>
       </ul>
     </div>
    

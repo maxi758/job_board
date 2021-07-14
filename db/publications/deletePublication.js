@@ -14,7 +14,7 @@ function deletePublication(stringId, cbError, cbResult) {
     const job_board = client.db(dbConfig.db);
     const colPublish = job_board.collection(dbConfig.coleccion);
 
-    colPublish.deleteOne({ _id: mongodb.ObjectId(stringId) }, function(err, result) {
+    colPublish.findOneAndDelete({ _id: mongodb.ObjectId(stringId) }, function(err, result) {
 
       client.close();
 

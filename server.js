@@ -87,7 +87,7 @@ app.get("/home",session.auth, (req, res) =>{
       mainTitle = "Feed";
       // Renderizo la vista "feed" con esos datos
       res.render("feed", {
-        username: req.session.user.user,
+        username: (req.session.user.user).toString(),
         publications: allPublications,
         title: mainTitle,
       });
@@ -102,6 +102,7 @@ app.use("/add", publication);
 app.use("/newPublication", publication); 
 app.use("/search", publication);
 app.use("/edit", publication);
+app.use("/delete", publication);
 //+++++++++++++++++ LOGIN +++++++++++++++++++++++++++++++++
 const login = require("./routes/login");
 app.use(login);
@@ -115,7 +116,6 @@ app.get("/logout", (req, res) => {
 });
 //++++++++++++++ REGISTER ++++++++++++++++++++++++++++
 const userRegister = require("./routes/register");
-const { ExpressHandlebars } = require("express-handlebars");
 app.use(userRegister);
 app.use("registerForm", userRegister);
 app.use("register", userRegister);
