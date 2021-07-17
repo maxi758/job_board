@@ -66,50 +66,22 @@ app.use((req, res, next)=>{
   next();
 });
 
-/*app.use((req, res, next)=> { 
+app.use((req, res, next)=> { 
   if (!req.user) 
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate'); 
   next(); 
-}); */
+}); 
 //Este endpoint redirecciona siempre a "login" cuando se trata de ingresar a una ruta no autorizada o inexistente
 
-// GET inicial, envia hacia el registro por ahora
-//mi idea es hacer una vista más con botones hacia login o register
-app.get("/", (req, res) => {
-  if (!req.session.user) {
-    res.render("login", { layout: "public-layout" });
-  }
-  else{
-    res.redirect("/home");
-  }
-  
-});
+// GET inicial, envia hacia el registro o home
+
+const index = require("./routes/index");
+app.use(index);
+app.use("/", index);
 //Una vez logueado se puede ver el feed de publicaciones (faltan estilos)
-app.get("/home",session.auth, (req, res) =>{
 
-  let mainTitle;
-  getPublication.getAllPublications(
-    (err) => {
-      console.log(err);
-      res.render("error", {
-        mensajeError: err,
-      });
-    },
+app.use("/home", index);
 
-    (allPublications) => {      
-      mainTitle = "Feed";
-      // Renderizo la vista "feed" con esos datos
-      res.render("feed", {
-        id: req.session.user._id,
-        img: (req.session.user.img).toString(),
-        username: (req.session.user.user).toString(),
-        publications: allPublications,
-        title: mainTitle,
-      });
-    }
-  );
-
-});
 //++++++++++++++ PUBLICAR  ++++++++++++++++++++++
 const publication = require("./routes/publications");
 app.use(publication);
@@ -136,13 +108,13 @@ app.use("registerForm", userRegister);
 app.use("register", userRegister);
 
 //++++++++++++++++++++++++++++++++++++++++++++
-app.get("/upload/:id", (req, res) => {
+app.get("/upload/:id", session.auth, (req, res) => {
   res.render("editUser", {username: req.session.user.user,
     img: (req.session.user.img).toString(),
     id: req.session.user._id});
 });
-app.post("/guardar/:id", upload.single("cover"), (req, res)=>{
-  console.log(req.file);
+app.post("/upload/:id", session.auth, upload.single("avatar"), (req, res)=>{
+  
   updateAvatar(req.params.id, req.file.filename,
     (errorMsg)=>{
       console.log(errorMsg);

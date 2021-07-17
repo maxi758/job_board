@@ -34,7 +34,7 @@ routerPublication.post("/newPublication", (req, res) => {
 routerPublication.post("/search", session.auth,(req, res)=>{
   let mainTitle;
   let result;
-  const {user, img} = req.session.user;
+  const {user, img, _id} = req.session.user;
   const filterWord = req.body.filterWord;
   getPublication.filterByWord(filterWord,
     (err) => {
@@ -57,6 +57,7 @@ routerPublication.post("/search", session.auth,(req, res)=>{
 
       // Renderizo la vista "feed" con esos datos
       res.render("feed", {
+        id: _id,
         username: user,
         img: img.toString(),
         publications: filterPublication,

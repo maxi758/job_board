@@ -35,16 +35,16 @@ const multer = require("multer");
 
 
 const uploadStorage = multer.diskStorage({
-  destination: (req, file, cbCarpetaArchivo) => {
-    cbCarpetaArchivo(undefined, "client/img");
+  destination: (req, file, cbFileFolder) => {
+    cbFileFolder(undefined, "client/img");
   },
-  filename: (req, file, cbNombreArchivo) => {
+  filename: (req, file, cbFileName) => {
     extension = file.originalname.slice(file.originalname.lastIndexOf("."));
     console.log(extension);
 
     nombre = "img-" + req.session.user.user + Date.now() + extension;
 
-    cbNombreArchivo(undefined, nombre);
+    cbFileName(undefined, nombre);
   },
 });
 
