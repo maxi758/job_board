@@ -3,11 +3,13 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const getPublication = require("./db/publications/getPublication");
+const updateAvatar = require("./db/users/updateUser").updateAvatar;
 const expHbs = require("express-handlebars");
 const session = require("./routes/utils").session;
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
-
+const multer = require("multer");
+const upload = require("./routes/utils").upload;
 //Parse Cookie header and populate req.cookies with an object keyed by the cookie names
 app.use(cookieParser("secret"));
 
@@ -61,15 +63,26 @@ app.use(express.static(path.join(__dirname, "/client/")));
 app.use((req, res, next)=>{
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
-
   next();
 });
+
+/*app.use((req, res, next)=> { 
+  if (!req.user) 
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate'); 
+  next(); 
+}); */
 //Este endpoint redirecciona siempre a "login" cuando se trata de ingresar a una ruta no autorizada o inexistente
 
 // GET inicial, envia hacia el registro por ahora
 //mi idea es hacer una vista más con botones hacia login o register
 app.get("/", (req, res) => {
-  res.render("login", { layout: "public-layout" });
+  if (!req.session.user) {
+    res.render("login", { layout: "public-layout" });
+  }
+  else{
+    res.redirect("/home");
+  }
+  
 });
 //Una vez logueado se puede ver el feed de publicaciones (faltan estilos)
 app.get("/home",session.auth, (req, res) =>{
@@ -87,6 +100,8 @@ app.get("/home",session.auth, (req, res) =>{
       mainTitle = "Feed";
       // Renderizo la vista "feed" con esos datos
       res.render("feed", {
+        id: req.session.user._id,
+        img: (req.session.user.img).toString(),
         username: (req.session.user.user).toString(),
         publications: allPublications,
         title: mainTitle,
@@ -110,7 +125,7 @@ app.use("/loginForm", login);
 app.use("/login", login);
 
 //+++++++++++++ Me gustaria que confirme si realmente quiere salir, queda pendiente ++++++++++++++++
-app.get("/logout", (req, res) => {
+app.get("/logout",session.auth, (req, res) => {
   req.session.destroy();
   res.redirect("/login");
 });
@@ -121,7 +136,22 @@ app.use("registerForm", userRegister);
 app.use("register", userRegister);
 
 //++++++++++++++++++++++++++++++++++++++++++++
+app.get("/upload/:id", (req, res) => {
+  res.render("editUser", {username: req.session.user.user,
+    img: (req.session.user.img).toString(),
+    id: req.session.user._id});
+});
+app.post("/guardar/:id", upload.single("cover"), (req, res)=>{
+  console.log(req.file);
+  updateAvatar(req.params.id, req.file.filename,
+    (errorMsg)=>{
+      console.log(errorMsg);
+    },
+    ()=>{
 
+    } );
+  res.redirect("/");
+})
 // la finalidad de este middleware es redireccionar a inicio o login 
 //cuando se ingresen rutas inaccesibles
 app.get('*',function (req, res) {

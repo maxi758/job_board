@@ -17,10 +17,12 @@ p{
   box-sizing:border-box;
   margin-right: 4px;
   vertical-align: middle;
-}/*
-#izq{
-  float: left;
-}*/
+}
+
+
+#izq, #der{
+  margin-top: 4%;
+}
  /*.container, aside{
   display: inline-block;
 }
@@ -47,9 +49,7 @@ p{
 
 
 
-.row{
-  display: inline-block;
-}
+
 .div-style{
   display: flex;
   margin-top: 25px;

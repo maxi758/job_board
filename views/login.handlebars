@@ -1,26 +1,26 @@
 <div class="d-md-flex justify-content-md-center"> 
   <h1>Ingresa</h1>
 </div>
-    <div class="container-sm w-50 bg-light d-flex justify-content-center">
-        <form action="/login" method="post" class="row g-3 p-3" role="form">
-            <div class="form-group d-flex justify-content-center">
-              <label for="user" class="col-sm-3 col-form-label">Usuario</label>
-              <div class="col-sm-3">
-                <input type="text" class="form-control" name="user" id="input-user" placeholder="Usuario" required value="{{user}}">
-              </div>
-            </div>
-            <div class="form-group d-flex justify-content-center">
-              <label for="password" class="col-sm-3 col-form-label">Contraseña</label>
-              <div class="col-sm-3">
-                <input type="password" class="form-control" name="pwd" id="input-password" placeholder="Contraseña" required>
-              </div>
-            </div>
-            <div class="col-12 d-flex justify-content-center">
-              <button type="submit" class="btn btn-primary" value="login" id="btn-login">Ingresa
-            </div>
-        </form>
-    </div>
-    <div class="d-md-flex justify-content-md-center">
-      <p class="text-muted"> ¿No tienes cuenta en JobBoard?</p>   
-      <a href="/register" class="link-primary mx-3">  Regístrate ahora</a>
-    </div>
+  <div class="container-sm w-50 bg-light d-flex justify-content-center">
+    <form action="/login" method="post" class="row g-3 p-3" role="form">
+      <div class="form-group d-flex justify-content-center">
+        <label for="user" class="col-sm-3 col-form-label">Usuario</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" name="user" id="input-user" placeholder="Usuario" required value="{{user}}">
+        </div>
+      </div>
+      <div class="form-group d-flex justify-content-center">
+        <label for="password" class="col-sm-3 col-form-label">Contraseña</label>
+        <div class="col-sm-3">
+          <input type="password" class="form-control" name="pwd" id="input-password" placeholder="Contraseña" required>
+        </div>
+      </div>
+      <div class="col-12 d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary" value="login" id="btn-login"/>Ingresa
+      </div>
+    </form>
+  </div>
+  <div class="d-md-flex justify-content-md-center">
+    <p class="text-muted"> ¿No tienes cuenta en JobBoard?</p>   
+    <a href="/registerForm" class="link-primary mx-3">  Regístrate ahora</a>
+  </div>

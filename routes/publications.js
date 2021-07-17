@@ -10,16 +10,17 @@ const dateAndHour = require("./utils").dateAndHour;
 const routerPublication = express.Router();
 
 routerPublication.get("/add", session.auth, (req, res) => {
-  
+  const {_id, user, img} = req.session.user;
   let title = " crear publicacion";
-  res.render("newPublication", { username: req.session.user.user , title })
+  res.render("newPublication", { username: user, 
+    img: img.toString(), title })
 });
 routerPublication.post("/newPublication", (req, res) => {
   let content = req.body.publication;
-  const {_id, user} = req.session.user;
+  const {_id, user, img} = req.session.user;
   let data = {
     date:dateAndHour(),
-    author:{_id, user},
+    author:{_id, user, img},
     contenido: content,
   };
   console.log(content);
@@ -30,9 +31,10 @@ routerPublication.post("/newPublication", (req, res) => {
 });
 
 
-routerPublication.post("/search", (req, res)=>{
+routerPublication.post("/search", session.auth,(req, res)=>{
   let mainTitle;
   let result;
+  const {user, img} = req.session.user;
   const filterWord = req.body.filterWord;
   getPublication.filterByWord(filterWord,
     (err) => {
@@ -55,7 +57,8 @@ routerPublication.post("/search", (req, res)=>{
 
       // Renderizo la vista "feed" con esos datos
       res.render("feed", {
-        username: req.session.user.user,
+        username: user,
+        img: img.toString(),
         publications: filterPublication,
         //tituloResultados: result,
         title: mainTitle,
@@ -65,6 +68,7 @@ routerPublication.post("/search", (req, res)=>{
 })
 
 routerPublication.get("/editForm/:id", session.auth, (req,res)=>{
+  const {_id, user, img} = req.session.user;
   getPublication.getPublicationById(req.params.id,
     (errorMsg)=>{
       console.log(errorMsg);
@@ -72,7 +76,8 @@ routerPublication.get("/editForm/:id", session.auth, (req,res)=>{
     },
     (publicationData)=>{
       console.log(publicationData);
-      res.render("editPublication", {username: req.session.user.user,
+      res.render("editPublication", {username : user,
+        img: img.toString(),
         publication:publicationData} );
     });
   

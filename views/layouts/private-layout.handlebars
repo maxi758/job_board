@@ -31,23 +31,31 @@
     </header>
     
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
-    <div class="container-sm ">
+    <div class="container">
       <div class="row" >
         <div  id="izq" class="col-xl-2">
           <div class="card  bg-light text-black border-dark ">
             <div class="card-body border-dark bg-ligth text-center">
-              <span class="text-center">{{username}}</span>
+              <a href="/upload/{{id}}" class="link-dark"><span class="text-center">{{username}}</span></a>
+            </div>
+            <div class="card-body border-dark bg-ligth text-center">
+              <img src="/img/{{img}}" class="rounded-circle " alt="imagen de {{username}}">
             </div>
           </div>
-        </div>  
-        <div class="col-xl-8">
-          {{{body}}}
-          <div class="text-center">
-          
+        </div>
+        <div class="col-xl-1">
 
+        </div>  
+        <div class="col-xl-5">
+          <div class="text-center">
+
+          {{{body}}}
           </div>
         </div>
-        <div  class="col-xl-2 mb-n5" id="der">
+        <div class="col-xl-1">
+
+        </div>  
+        <div  class="col-xl-2 " id="der">
           <div class="card  bg-light text-black border-dark ">
           <ul class="list-unstyled text-center">
             <li><a href="/html/aboutUs.html" class="link-dark">Acerca de</a></li>

@@ -30,33 +30,28 @@ const dateAndHour = ()=> {
   return `${dia}-${mes}-${anio}  ${hora}:${mins}`;
 }
 
-const register = function(Handlebars) {
-  const helpers = {
-  inc: function(value, options) {
-      return parseInt(value) + 1;
+
+const multer = require("multer");
+
+
+const uploadStorage = multer.diskStorage({
+  destination: (req, file, cbCarpetaArchivo) => {
+    cbCarpetaArchivo(undefined, "client/img");
   },
-  compare: function(var1, var2) {
-    if (var1===var2) {
-      return true;
-    }
-    else{
-      return false;
-    }
-      
-  }
-};
+  filename: (req, file, cbNombreArchivo) => {
+    extension = file.originalname.slice(file.originalname.lastIndexOf("."));
+    console.log(extension);
 
-if (Handlebars && typeof Handlebars.registerHelper === "function") {
-  for (var prop in helpers) {
-      Handlebars.registerHelper(prop, helpers[prop]);
-  }
-} else {
-  return helpers;
-}
+    nombre = "img-" + req.session.user.user + Date.now() + extension;
 
-};
+    cbNombreArchivo(undefined, nombre);
+  },
+});
 
-module.exports.helpers = register(null); 
+const upload = multer({
+  storage: uploadStorage,
+});
+
 module.exports = {
   session :{
     expSession,
@@ -64,5 +59,5 @@ module.exports = {
   },
   
   dateAndHour,
-  register,
+  upload,
 } 

@@ -15,6 +15,7 @@ routerRegister.post("/register", (req, res) => {
   let data = {
     user: user,
     pwd: pwd,
+    img: "Avatar-Vacio.png"
   };
   //por el required del for no entraria al primer if, pero lo dejé hasta consultar
   if (!user || !pwd || !pwdRep) {

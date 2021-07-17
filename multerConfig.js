@@ -3,7 +3,7 @@ const multer = require("multer");
 
 const uploadStorage = multer.diskStorage({
   destination: (req, file, cbCarpetaArchivo) => {
-    cbCarpetaArchivo(undefined, "imgs");
+    cbCarpetaArchivo(undefined, "client/img");
   },
   filename: (req, file, cbNombreArchivo) => {
     extension = file.originalname.slice(file.originalname.lastIndexOf("."));
