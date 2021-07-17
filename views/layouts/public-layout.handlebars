@@ -10,13 +10,35 @@
     
   </head>
   <body>
-    
+    <header>
+      <nav class="navbar navbar-light bg-light border-primary">
+        <div class="container justify-content-left">
+          <a href="#" class="navbar-brand"><img src="/img/logo_size.jpg" alt="">
+            <span class="text-center">Job Board</span>
+          </a>
+        </div>
+           
+      </nav>
+    </header>
     <!-- Agregué un div para contener el resto de la vista para darle margen en el css -->
     <div class="d-flex justify-content-center flex-column container"> 
       {{>messages}}
       {{{body}}}   
       
     </div>
+
+    <footer class="page-footer font-small blue pt-4  fixed-bottom">
+      <div  class=" justify-content-center">
+          <div class="card w-100 bg-light text-black border-dark ">
+          <ul class="nav list-unstyled text-center  justify-content-center">
+            <li class="nav-item p-4 mx-4"><a href="/html/aboutUs.html" class="link-dark">Acerca de</a></li>
+            <li class="nav-item p-4 mx-4"><a href="" class="link-dark">Politicas y privacidad</a></li>
+            <li class="nav-item p-4 mx-4"><a href="" class="link-dark">Publicita aquí</a></li>
+            <li class="nav-item p-4 mx-4"><span>© 2020 Copyright: Maxi Gil Herrera</span> </li>
+          </ul>
+          </div>
+      </div>
+    </footer>
     <script src="/js/bootstrap.min.js" type="text/javascript" crossorigin="anonymous"></script>
     
   </body>

@@ -13,7 +13,7 @@ routerPublication.get("/add", session.auth, (req, res) => {
   const {_id, user, img} = req.session.user;
   let title = " crear publicacion";
   res.render("newPublication", { username: user, 
-    img: img.toString(), title })
+    img: img.toString(), id: _id, title })
 });
 routerPublication.post("/newPublication", (req, res) => {
   let content = req.body.publication;
