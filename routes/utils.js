@@ -50,6 +50,17 @@ const uploadStorage = multer.diskStorage({
 
 const upload = multer({
   storage: uploadStorage,
+  limits: {fieldSize:2048},
+  fileFilter: (req, file, cb)=>{
+    const filetypes = /jpeg|jpg|png|gif/;
+    const mimetype = filetypes.test(file.mimetype);
+    const extName = filetypes.test(file.originalname);
+    if (mimetype && extName) {
+      return cb(undefined, true);
+    }
+    req.fileValidatorError ="Error: formato de arhivo no valido"; 
+    cb(undefined, false, req.fileValidatorError);
+  }
 });
 
 module.exports = {

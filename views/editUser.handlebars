@@ -1,8 +1,12 @@
-
-    <form action="/upload/{{id}}" method="POST" enctype="multipart/form-data" class="row g-3 p-3" role="form">
+    <p class="text-danger">{{error}}</p>
+    <form action="/upload/{{id}}" method="POST" enctype="multipart/form-data" class="row g-3 p-3 bg-light mt-5" role="form">
       <div class="form-group d-flex justify-content-center">
         <input type="hidden" name="id" value="{{id}}" style="display: none;" />
-        <input type="file" id="avatar" name="avatar" />
-        <input type="submit" value="Guardar" />
+        <input type="file" id="avatar" name="avatar" /> 
       </div>
+      <div class="col-12 d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">guardar</button>
+      </div>
+        
+     
     </form>

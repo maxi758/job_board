@@ -114,15 +114,25 @@ app.get("/upload/:id", session.auth, (req, res) => {
     id: req.session.user._id});
 });
 app.post("/upload/:id", session.auth, upload.single("avatar"), (req, res)=>{
-  
-  updateAvatar(req.params.id, req.file.filename,
+  if (req.fileValidatorError) {
+    res.render("editUser", {error: req.fileValidatorError,
+      username: req.session.user.user,
+      img: (req.session.user.img).toString(),
+      id: req.session.user._id} );
+  }
+  else{
+    updateAvatar(req.params.id, req.file.filename,
     (errorMsg)=>{
       console.log(errorMsg);
+      res.render("errorServer", {error : errorMsg});
     },
     ()=>{
 
-    } );
-  res.redirect("/");
+    } ); 
+    res.redirect("/");
+  }
+  
+ 
 })
 // la finalidad de este middleware es redireccionar a inicio o login 
 //cuando se ingresen rutas inaccesibles
